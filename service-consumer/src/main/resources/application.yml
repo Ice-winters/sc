@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: service-consumer
+
+server:
+  port: 9090
+
+
+# eureka 注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: false  # 假设这个服务不注册在eureka
+    registry-fetch-interval-seconds: 10 # 表示eureka client 间隔多久去服务器拉取注册信息，默认30秒
+    service-url:
+      defaultZone: http://root:123456@localhost:8761/eureka # 集群就用逗号写多个
+  instance:
+    hostname: service-consumer-host
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
