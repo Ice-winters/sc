@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order selectOrderById(Integer id) {
         return new Order(id, "order-001", "china", 4999D,
-                selectProductListByLoadBalancerAnnotation());
+                selectProductListByLoadBalancerClient());
     }
 
 
@@ -88,6 +88,10 @@ public class OrderServiceImpl implements OrderService {
                 .append(":")
                 .append(serviceInstance.getPort())
                 .append("/product/list");
+
+        // 判断是调用的那个service
+        System.out.println(sb.toString());
+
 
         // responseEntity 封装了返回数据
         ResponseEntity<List<Product>> responseEntity = restTemplate.exchange(

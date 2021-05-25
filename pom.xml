@@ -12,6 +12,7 @@
         <module>eureka-server</module>
         <module>service-provider</module>
         <module>service-consumer</module>
+        <module>service-provider2</module>
     </modules>
 
     <!--继承spring-boot-starter-parent依赖-->

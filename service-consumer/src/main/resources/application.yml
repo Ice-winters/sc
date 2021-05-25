@@ -7,14 +7,27 @@ server:
 
 
 # eureka 注册中心
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: false  # 假设这个服务不注册在eureka
-    registry-fetch-interval-seconds: 10 # 表示eureka client 间隔多久去服务器拉取注册信息，默认30秒
-    service-url:
-      defaultZone: http://root:123456@localhost:8761/eureka # 集群就用逗号写多个
-  instance:
-    hostname: service-consumer-host
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+#eureka:
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: false  # 假设这个服务不注册在eureka
+#    registry-fetch-interval-seconds: 10 # 表示eureka client 间隔多久去服务器拉取注册信息，默认30秒
+#    service-url:
+#      defaultZone: http://root:123456@localhost:8761/eureka # 集群就用逗号写多个
+#  instance:
+#    hostname: service-consumer-host
+#    prefer-ip-address: true
+#    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+
+# 负载均衡策略
+# service-provider 为调用的服务名称
+service-provider:
+  ribbon:  # com.netflix.client.config.CommonClientConfigKey
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule  # com.netflix.loadbalancer.WeightedResponseTimeRule
+    ListOfServers: http://localhost:7070,http://localhost:7071 # 配置服务地址，这里不用eureka就表示为直连的地址
+
+# 关闭Eureka 实现Ribbon点对点直连  （这种方式一般在测试环境中，不用开启eureka，直接ribbon直连）
+ribbon:
+  eureka:
+    enabled: false # false 关闭   true 开启（默认开启）
